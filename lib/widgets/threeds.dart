@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:html' as html; // Only used on the web
-import 'dart:ui' as ui; // Only used on the web
+import 'dart:html' deferred as html; // Only used on the web
+import 'dart:ui' deferred as ui; // Only used on the web
 
 class ThreeDSPage extends StatefulWidget {
   final String? html;
@@ -19,11 +19,13 @@ class _ThreeDSPageState extends State<ThreeDSPage> {
   late final WebViewController _controller;
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
 
     if (kIsWeb) {
       // Register the view factory for web only
+      await html.loadLibrary();
+      await ui.loadLibrary();
       //ignore: undefined_prefixed_name
       ui.platformViewRegistry.registerViewFactory(
         'iframe-html-viewer',
